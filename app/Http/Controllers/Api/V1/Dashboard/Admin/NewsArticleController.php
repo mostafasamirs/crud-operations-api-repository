@@ -60,7 +60,7 @@ class NewsArticleController extends Controller
             $news = $this->newsRepository->create($data);
             // Add translations
 //            $news->translations()->createMany($translations);
-            $this->newsRepository->addTranslations($news, $translations);
+            $this->newsRepository->addTranslations($news->id, $translations);
             addImage($request, $news, 'image');
             DB::commit();
             return $this->returnData(new (self::RESOURCE)($news), lang('api::news.news_created_successfully'));
@@ -108,7 +108,7 @@ class NewsArticleController extends Controller
             unset($data['translations'], $data['image']);
 
             $news = $this->newsRepository->update($uuid, $data);
-            $this->newsRepository->updateTranslations($news, $translations);
+            $this->newsRepository->updateTranslations($news->id, $translations);
             updateImage($request, $news, 'image');
             DB::commit();
             return $this->returnData(new (self::RESOURCE)($news), lang('api::news.news_updated_successfully'));
